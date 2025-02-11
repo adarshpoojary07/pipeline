@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Run the Postman collection using Newman
-                    sh 'newman run https://github.com/Adsrshpoojary07/pipeline/blob/main/8.API_Chaining.json'
+                    sh 'newman run 8.API_Chaining.json -e postman_environment.json'
                 }
             }
         }
