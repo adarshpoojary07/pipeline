@@ -29,7 +29,6 @@ pipeline {
 
     post {
         always {
-            // Optional: Archive test results or send notifications
             echo 'Postman collection execution completed.'
         }
     }
