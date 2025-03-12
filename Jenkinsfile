@@ -1,35 +1,32 @@
 pipeline {
     agent any
-
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/Adsrshpoojary07/pipeline.git'
+                git url: 'https://github.com/adarshpoojary07/pipeline.git', branch: 'main'
             }
         }
-
-        stage('Install Newman') {
+        stage('Install Newman Reporter') {
             steps {
-                script {
-                    // Install Newman globally using npm
-                    sh 'npm install -g newman'
-                }
+                bat 'npm install -g newman-reporter-htmlextra'
             }
         }
-
-        stage('Run Postman Collection') {
+        stage('Run Postman Tests') {
             steps {
-                script {
-                    // Run the Postman collection using Newman
-                    sh 'newman run 8.API_Chaining.json -e postman_environment.json'
-                }
+                bat 'newman run 8.API_Chaining.json -e postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export Results.html'
             }
         }
-    }
-
-    post {
-        always {
-            echo 'Postman collection execution completed.'
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'Results.html',
+                    reportName: 'Postman Test Report'
+                ])
+            }
         }
     }
 }
