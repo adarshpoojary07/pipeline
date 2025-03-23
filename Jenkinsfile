@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Run Postman Tests') {
             steps {
-                bat 'newman run 8.API_Chaining.json -e postman_environment.json -n 3 --reporters cli,htmlextra --reporter-htmlextra-export "E:/Study_Material/POSTMAN/POSTMAN Collections/newman/Results_$(date +"%Y%m%d_%H%M%S").html'
+                bat 'newman run 8.API_Chaining.json -e postman_environment.json -n 3 --reporters cli,htmlextra --reporter-htmlextra-export "E:/Study_Material/POSTMAN/POSTMAN Collections/newman/Results_$(date +"%Y%m%d_%H%M%S").html"'
             }
         }
         stage('Publish HTML Report') {
@@ -23,7 +23,7 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: 'E:/Study_Material/POSTMAN/POSTMAN Collections/newman',
-                    reportFiles: 'Results.html',
+                    reportFiles: 'Results_$(date +"%Y%m%d_%H%M%S").html',
                     reportName: 'Postman Test Report'
                 ])
             }
